@@ -5,7 +5,7 @@ import requests
 import time
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-import gzip
+
 
 # Replace this with your actual TMDB API key (v3 auth key, not the v4 bearer token)
 # Get one free at: https://www.themoviedb.org/settings/api
