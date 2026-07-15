@@ -203,18 +203,31 @@ def recommend(movie):
 # ---------------------------------------------------------------------------
 # Data load
 # ---------------------------------------------------------------------------
+import os
+import gdown
+
+FILE_ID = "1ytBIC0W6C8lnIplU7R6PQWdYxd4IXOe6"
+
 @st.cache_resource
 def load_data():
+
+    # Load movies
     with open("movies_dict.pkl", "rb") as f:
         movies_dict = pickle.load(f)
 
     movies = pd.DataFrame(movies_dict)
 
-    # Load compressed similarity matrix
-    with gzip.open("similarity_compressed.pkl.gz", "rb") as f:
+    # Download similarity.pkl once
+    if not os.path.exists("similarity.pkl"):
+        with st.spinner("Downloading similarity matrix (first run only)..."):
+            url = f"https://drive.google.com/uc?id={FILE_ID}"
+            gdown.download(url, "similarity.pkl", quiet=False)
+
+    with open("similarity.pkl", "rb") as f:
         similarity = pickle.load(f)
 
     return movies, similarity
+
 
 movies, similarity = load_data()
 
